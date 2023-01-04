@@ -35,11 +35,9 @@ TAWNS is composed of many parts. Each part is protected by its own individual co
 
 # Contents
 
-[Setup](#Setup) 
-[Prerequisites](##Prerequisites)    
-[Installation](##Installation)  
-[Getting started](##Getting started)    
-[Further explanations](##Further explanations)    
+[Setup](##Setup-(Ubuntu-20.04-or-later))    
+[Getting started](#Getting-started)     
+[Further explanations](#Further-explanations) 
 
 ## Setup (Ubuntu 20.04 or later)
 
@@ -64,7 +62,7 @@ sudo apt-get install openscenegraph-plugin-osgearth libosgearth-dev
 
 ## Omnet++' Installation
 
-Download official Omnet++ v6.01 [release] (https://omnetpp.org/download/).
+Download official Omnet++ v6.01 [release](https://omnetpp.org/download/).
 
 Change default Omnet++'s C++ version to C++17:
 ```
@@ -73,7 +71,7 @@ sed -i 's/#CXXFLAGS=-std=c++17/CXXFLAGS=-std=c++17/g' configure.user
 ```
 
 ### Configuration Options
-Omnet++' support multiple (build options)[https://doc.omnetpp.org/omnetpp/InstallGuide.pdf]. Here the three most prominent ones:
+Omnet++' support multiple [build options](https://doc.omnetpp.org/omnetpp/InstallGuide.pdf). Here the three most prominent ones:
 
 1. With Command-line interface, but no graphical visualization and no mapping-support.
 
@@ -98,9 +96,9 @@ source setenv
 
 ## INET' Installation
 
-Install the INET framework v4.4.1 accoring to [official guide] (https://inet.omnetpp.org/Installation.html). It is not necessary to build the project yet.
+Install the INET framework v4.4.1 accoring to [official guide](https://inet.omnetpp.org/Installation.html). It is not necessary to build the project yet.
 
-## Get TAWNS' and install Scaper dependencies
+## Get TAWNS and install Scaper dependencies
 
 config Omnet++
 
@@ -201,8 +199,8 @@ network Showcase_2D
 In the above configuration, there are modules for the wireless acoustic network that records and transmits audio and for the acoustic simulation.
 A module's parameters can be configured, which is done in the configuration file in omnetpp.ini. But let us take a closer look at the declared modules first:
 - In the above example, our recording devices are modules of ManetRouter, meaning that the nodes form an ad-hoc network. For alternatives, check src|inet|node|inet or src|tawns|node|inet.
-- The configurator module sets the IP addresses and more, and by default, it will assign the addresses automatically. Check the INET [configuration tutorial] (https://inet.omnetpp.org/docs/tutorials/configurator/doc/index.html) for further details.
-- The radioMedium defines which kind of radio model we want to use for data transmission (in this case, we use the Ieee80211ScalarRadioMedium). For details, check its [inet documentation] (https://inet.omnetpp.org/docs/users-guide/ch-transmission-medium.html).
+- The configurator module sets the IP addresses and more, and by default, it will assign the addresses automatically. Check the INET [configuration tutorial](https://inet.omnetpp.org/docs/tutorials/configurator/doc/index.html) for further details.
+- The radioMedium defines which kind of radio model we want to use for data transmission (in this case, we use the Ieee80211ScalarRadioMedium). For details, check its [inet documentation](https://inet.omnetpp.org/docs/users-guide/ch-transmission-medium.html).
 - The ambient module sets some static acoustic interference, e.g., sounds created by wind or a street. Note that ambient sound is identical for all nodes.
 - The soundSources are entities that can move through the area and will emit sounds from time to time.
 - The soundManager handles the generation of the spatial soundscapes, and to do so, it collects all required information from all modules involved. That information is in the soundManager itself (e.g., speed of sound), the sound sources, the ambient sound,  and of course, nodes that are equipped with microphones (in more technical terms, nodes that inherit from tawns.node.base.ApplicationLayerNodeBase or one of its children).
@@ -464,8 +462,3 @@ In TAWNS, the parameters that are used in sound processing are distributed in di
 
 ## Using own audios in the Sound Simulation
 The spatial sound simulation requires pre-recorded audios that exist in the directory tawns/audioLibrary. Note the structure of the provided audio. In the background, a directory is a set of subdirectories that contain the audio. The structure is the same for the foreground audio. If new audio should be used, place them in the subdirectories or make new ones that are referred to in the simulation. Referring to audios at other locations will result in errors due to dependencies in Scaper and the TAWNS.
-
-
-
-
-
