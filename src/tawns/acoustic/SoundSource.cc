@@ -13,6 +13,15 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
+#include <iostream>
+#include <fstream>
+#include <cstdio>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <array>
+#include <cmath>
+
 #include "SoundSource.h"
 #include "tawns/mobility/single/ABonnMotionMobility.h"
 #include "tawns/mobility/static/AStationaryMobility.h"
@@ -30,7 +39,41 @@ void SoundSource::initialize(int stage)
     if (stage == inet::INITSTAGE_PRE_SOUND_SIMULATION)
     {
         id = par("id");
+
+        std::vector<std::string> timesStr = inet::cStringTokenizer(par("event_times")).asVector();
+        for (auto i : timesStr) {
+            inet::simtime_t t = inet::simtime_t::parse(i.c_str());
+            event_times.push_back(t);
+        }
+
+        // check whether the event-times have enough distance to each other
+        std::stringstream cmd;
+        cmd << "soxi -D " << getAudioAbsPath();
+        double audio_duration = std::stod(exec(cmd.str().c_str()));
+        for (auto i : event_times)
+        {
+            for (auto j : event_times)
+            {
+                if (i != j && (std::abs(i.dbl()-j.dbl()) < audio_duration))
+                {
+                    throw inet::cRuntimeError("Invalid event_times (minimum distance must be %fseconds)", audio_duration);
+                }
+            }
+        }
     }
+}
+
+std::string SoundSource::exec(const char* cmd) {
+    std::array<char, 128> buffer;
+    std::string result;
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+    if (!pipe) {
+        throw std::runtime_error("popen() failed!");
+    }
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+        result += buffer.data();
+    }
+    return result;
 }
 
 const char* SoundSource::getId()
@@ -113,6 +156,15 @@ const char* SoundSource::getAttenuationModel()
 std::vector<double> SoundSource::getAttenuationModel_Params()
 {
     return ((AttenuationModel_Log*) this->getSubmodule("attenuation"))->getParams();
+}
+
+std::string SoundSource::getEventTimes()
+{
+    std::stringstream ss;
+    for (int j=0; j<event_times.size(); ++j) {
+        ss << event_times[j] << " ";
+    }
+    return ss.str();
 }
 
 } // tawns namespace

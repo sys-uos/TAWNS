@@ -115,41 +115,49 @@ def parseScaperConf(confFile):
             elif flag == "Source_ModuleName":
                 moduleName = val.strip();
                 id = lines[i+1].split(':')[1].strip()
-                audioLabel = lines[i+2].split(':')[1].strip()
-                absPath = lines[i+3].split(':')[1].strip().strip()
-                sourceTime = lines[i+4].split(':')[1].strip()
-                sound_random_state = int(lines[i+5].split(':')[1].strip())
-                maxSamples = int(lines[i+6].split(':')[1].strip())
+                event_times = lines[i+2].split(':')[1].strip().split(" ")
+                print(lines[i+2])
+                print(len(event_times))
+                if len(event_times) == 1 and event_times[0] == '':
+                    event_times = None
+                else:
+                    event_times = [float(i) for i in event_times]
+                audioLabel = lines[i+3].split(':')[1].strip()
+                absPath = lines[i+4].split(':')[1].strip().strip()
+                sourceTime = lines[i+5].split(':')[1].strip()
+                sound_random_state = int(lines[i+6].split(':')[1].strip())
+                maxSamples = int(lines[i+7].split(':')[1].strip())
                 # create a scaper source audio
-                scaperAudio = Source_Audio(audio_label=audioLabel,
+                scaperAudio = Source_Audio(audio_label=id,
                                            audio_path=absPath,
                                            audio_source_time=float(sourceTime),
                                            simulationTime=conf.simulationTime,
+                                           event_times=event_times,
                                            random_state=sound_random_state,
                                            max_samples=maxSamples)
 
-                attenuation_model = lines[i+7].split(':')[1].strip()
+                attenuation_model = lines[i+8].split(':')[1].strip()
                 if attenuation_model == "AttenuationModel_Log":
-                    attenuation_params = lines[i+8].split(':')[1].strip().split(";")[:-1]
+                    attenuation_params = lines[i+9].split(':')[1].strip().split(";")[:-1]
                     attenuation_params = [float(x) for x in attenuation_params]
                 attenuation = Attenuation_Model_Log(id=attenuation_model, ref_db=conf.refDb, params=attenuation_params)
 
-                mobilityModel = lines[i+9].split(':')[1].strip()
+                mobilityModel = lines[i+10].split(':')[1].strip()
                 if mobilityModel == "A_StationaryMobility":
-                    coord = lines[i+10].split(':')[1].strip().split(" m")[0]
+                    coord = lines[i+11].split(':')[1].strip().split(" m")[0]
                     x,y,z = coord.split(", ")
                     x = float(x.replace("(", ""))
                     y = float(y)
                     z = float(z.replace(")", ""))
-                    i += 10
+                    i += 11
                     # create mobility model for source
                     mobilityModel = StationaryMobility(initialX=x,
                                                        initialY=y,
                                                        initialZ=z)
                 elif mobilityModel == "A_BonnMotionMobility":
-                    trace = lines[i+10].split(':')[1].strip()
-                    nodeId = int(lines[i+11].split(':')[1].strip())
-                    i += 11
+                    trace = lines[i+11].split(':')[1].strip()
+                    nodeId = int(lines[i+12].split(':')[1].strip())
+                    i += 12
                     # create mobility model for source
                     mobilityModel = BonnMotionMobility(trace, nodeId)
                 conf.sources.append(Source(moduleName=moduleName, id=id, mobility=mobilityModel, audio=scaperAudio, attenuation_model=attenuation))

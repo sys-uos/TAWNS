@@ -90,6 +90,7 @@ class Source_Audio(Ambient_Audio):
                  audio_path,
                  audio_source_time,
                  simulationTime,
+                 event_times = None,
                  max_samples=None,
                  random_state=None) -> None:
         """
@@ -115,9 +116,12 @@ class Source_Audio(Ambient_Audio):
         self.simulationTime = simulationTime
         self.max_samples = max_samples
         self.random_state = random_state
-        self.audioEvents : List[Sound_Event] = self.__generateAudioEvents(simulationTime,
-                                                                          random_state=random_state,
-                                                                          max_samples=max_samples)
+        if event_times:
+            self.audioEvents : List[Sound_Event] = [Sound_Event(etime) for etime in event_times]
+        else:
+            self.audioEvents : List[Sound_Event] = self.__generateAudioEvents(simulationTime,
+                                                                              random_state=random_state,
+                                                                              max_samples=max_samples)
 
     def __generateAudioEvents(self, simulationTime:float, random_state:int=None, max_samples:int=None)->List[Sound_Event]:
         """

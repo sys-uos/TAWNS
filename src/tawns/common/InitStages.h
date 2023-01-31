@@ -26,6 +26,8 @@
 
 namespace inet {
 
+extern INET_API InitStage INITSTAGE_LOAD_AUDIOS;
+
 extern INET_API InitStage INITSTAGE_PRE_SOUND_SIMULATION;
 
 extern INET_API InitStage INITSTAGE_SOUND_SIMULATION;

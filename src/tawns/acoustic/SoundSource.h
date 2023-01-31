@@ -26,13 +26,17 @@ class SoundSource : public inet::cModule
 {
 private:
     const char* id;
+    std::vector<inet::simtime_t> event_times;
 
 protected:
     virtual void initialize(int stage) override;
     virtual int numInitStages() const override { return inet::NUM_INIT_STAGES; }
+    virtual std::string exec(const char* cmd);
 
 public:
     virtual const char* getId();
+
+    virtual std::string getEventTimes();
 
     virtual const char* getAudioLabel();
     virtual const char* getAudioAbsPath();

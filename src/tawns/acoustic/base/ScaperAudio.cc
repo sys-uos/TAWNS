@@ -25,7 +25,7 @@ Define_Module(ScaperSourceAudio);
 
 void ScaperAudio::initialize(int stage)
 {
-    if (stage == inet::INITSTAGE_PRE_SOUND_SIMULATION)
+    if (stage == inet::INITSTAGE_LOAD_AUDIOS)
     {
         absPath = par("absPath");
         std::filesystem::path aux(absPath);
@@ -55,7 +55,7 @@ double ScaperAudio::getSourceTime ()
 
 void ScaperSourceAudio::initialize(int stage)
 {
-    if (stage == inet::INITSTAGE_PRE_SOUND_SIMULATION)
+    if (stage == inet::INITSTAGE_LOAD_AUDIOS)
     {
         ScaperAudio::initialize(stage);
         maxSamples = par("maxSamples");

@@ -974,7 +974,7 @@ def _validate_event(label, source_file, source_time, event_time,
     _validate_source_file(source_file, label)
 
     # LABEL
-    _validate_label(label, allowed_labels)
+    #_validate_label(label, allowed_labels)
 
     # SOURCE TIME
     _validate_time(source_time)

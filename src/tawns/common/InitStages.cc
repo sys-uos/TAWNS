@@ -19,8 +19,11 @@
 
 namespace inet {
 
+Define_InitStage(LOAD_AUDIOS);
+Define_InitStage_Dependency(LOAD_AUDIOS, LAST);
+
 Define_InitStage(PRE_SOUND_SIMULATION);
-Define_InitStage_Dependency(PRE_SOUND_SIMULATION, LAST);
+Define_InitStage_Dependency(PRE_SOUND_SIMULATION, LOAD_AUDIOS);
 
 
 Define_InitStage(SOUND_SIMULATION);

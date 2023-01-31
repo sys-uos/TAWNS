@@ -29,7 +29,8 @@ module ScaperAudio
 module ScaperSourceAudio extends ScaperAudio
 {
 	parameters:
-	    int maxSamples = default(1); // audios are added automatically
+	    // if parameter event_times in SoundSource is set, this parameter is ignored, else  audios are added automatically maxSamples times
+	    int maxSamples = default(1);
 		@class(ScaperSourceAudio);
 }
 

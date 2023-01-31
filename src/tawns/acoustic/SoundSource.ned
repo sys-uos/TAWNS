@@ -26,11 +26,15 @@ import tawns.acoustic.INoiseAndInterference;
 
 // Simple Node for a SoundSource. Wrapper for a sound entity. Movement is visualized in Omnet, timestamps of emitted signals are calculated in SSP.
 
+// It is possible to set the event_times (the times a sound is emitted) by using the parameter event_times, but note that they will later be delayed and attenuated.
+// If this parameter stays empty, the song occurences are calculated automatically. The parameter audio->maxSamples will limit the number of emitted sounds.
+
 module SoundSource
 {
     parameters:
         @display("i=soundsource/animal1");
-        string id = default("");
+        string id = default("");  // used in the ground-truth file in results/soundscapes/
+        string event_times = default(""); // e.g. ["3s 7s"], unit in seconds and space as delimeter
         mobility.subjectModule = default("^");
         @class(SoundSource);
         @networkNode();  // technically no network node, but this annotation allows the 3D-visualization

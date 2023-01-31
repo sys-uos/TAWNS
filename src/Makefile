@@ -2,7 +2,7 @@
 # OMNeT++/OMNEST Makefile for tawns1
 #
 # This file was generated with the command:
-#  opp_makemake -f --deep -KINET_PROJ=/home/grawp/Avis/simulator/inet-4.4.1-src/inet4.4 -DINET_IMPORT -I/home/grawp/Avis/simulator/inet4 -I. -I$$\(INET_PROJ\)/src -L$$\(INET_PROJ\)/src -lINET$$\(D\)
+#  opp_makemake -f --deep -KINET_PROJ=/home/grawp/Avis/simulator/inet-4.4.1-src/inet4.4 -DINET_IMPORT -I. -I$$\(INET_PROJ\)/src -L$$\(INET_PROJ\)/src -lINET$$\(D\)
 #
 
 # Name of target to be created (-o option)
@@ -19,7 +19,7 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(QTENV_LIBS) $(CMDENV_LIBS)
 #USERIF_LIBS = $(QTENV_LIBS)
 
 # C++ include paths (with -I)
-INCLUDE_PATH = -I/home/grawp/Avis/simulator/inet4 -I. -I$(INET_PROJ)/src
+INCLUDE_PATH = -I. -I$(INET_PROJ)/src
 
 # Additional object and library files to link with
 EXTRA_OBJS =

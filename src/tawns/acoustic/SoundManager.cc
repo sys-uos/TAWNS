@@ -129,6 +129,24 @@ void SoundManager::initialize(int stage)
             } else {
                 throw inet::cRuntimeError("Could not find configuration file for Scaper: %s", confPath.string().c_str());
             }
+
+            // copy config file into the directory of the node, so that all ground-truth information are in one place
+            std::filesystem::path dst;
+            dst += "./results/soundscapes/";
+            dst+= confPath.filename();
+            dst+= "/";
+            dst+= confPath.filename();
+            dst+= "_config.txt";
+            try
+            {
+                std::filesystem::copy_file(confPath, dst, std::filesystem::copy_options::overwrite_existing);
+            }
+            catch (std::exception& e) // Not using fs::filesystem_error since std::bad_alloc can throw too.
+            {
+                throw inet::cRuntimeError("Could not find copy configuration file to results/soundscapes (node: %s)", confPath.filename().string().c_str());
+            }
+
+
         }
     }
 }
@@ -204,6 +222,7 @@ std::list<std::filesystem::path>  SoundManager::generateScaperConfigPerNode()
             {
                 scaperConfFile << "Source_ModuleName:" << source->getFullName() << std::endl;
                 scaperConfFile << "Source_Id:" << source->getId() << std::endl;
+                scaperConfFile << "Source_EventTimes:" << source->getEventTimes().c_str() << std::endl;
                 scaperConfFile << "Source_AudioLabel:" << source->getAudioLabel() << std::endl;
                 scaperConfFile << "Source_AudioAbsPath:" << source->getAudioAbsPath() << std::endl;
                 scaperConfFile << "Source_AudioSourceTimeLabel:" << source->getAudioSourceTime() << std::endl;

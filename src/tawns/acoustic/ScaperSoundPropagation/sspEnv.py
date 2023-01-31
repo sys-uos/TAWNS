@@ -114,6 +114,7 @@ class Sound_Environment:
                         audio_event_location.append(source.mobility.currentLocation)
                         # at the event time the sound is generated and delayed by the distance between microphone and source
                         event_time_delayed = event.time + distance_micro2source / self.speed_of_sound
+                        print(source.audio.audio_label)
                         self.scaper.add_event(label=('const', source.audio.audio_label),
                                               source_file=('choose', [source.audio.audio_path]),
                                               source_time=('const', source.audio.audio_source_time),
